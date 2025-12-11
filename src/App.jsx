@@ -1331,10 +1331,14 @@ function App() {
                   </p>
                 )}
                 <p>
+
+
+
+                  {/* i will work on that just commented it for know on */}
                   {isLogin ? "Don't have an account?" : "Already have an account?"}
-                  <button type="button" className="toggle-auth-btn" onClick={toggleForm}>
+                  {/* <button type="button" className="toggle-auth-btn" onClick={toggleForm}>
                     {isLogin ? "Sign Up" : "Login"}
-                  </button>
+                  </button> */}
                 </p>
               </div>
             </motion.div>
