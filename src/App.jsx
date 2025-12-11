@@ -157,6 +157,7 @@ function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -705,10 +706,21 @@ function App() {
   };
 
   const getFilteredProducts = () => {
-    if (selectedCategory === "All") {
-      return products;
+    let filtered = products;
+
+    if (selectedCategory !== "All") {
+      filtered = filtered.filter(
+        (product) => product.category === selectedCategory
+      );
     }
-    return products.filter((product) => product.category === selectedCategory);
+
+    if (searchQuery.trim() !== "") {
+      filtered = filtered.filter((product) =>
+        product.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    return filtered;
   };
 
   const categories = ["All", ...Object.keys(groupedProducts)];
@@ -893,6 +905,8 @@ function App() {
                 type="text"
                 placeholder="Search for frozen products..."
                 className="search-input"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
               <motion.button
                 className="search-btn"
