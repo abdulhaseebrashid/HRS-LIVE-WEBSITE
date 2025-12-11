@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import {
   FaHome,
   FaShoppingCart,
@@ -25,7 +25,8 @@ import {
 import "./Dashboard.css"
 import PlaceOrder from "./PlaceOrder"
 
-const API_URL = "http://localhost:8000/api"
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000"
+const API_URL = `${API_BASE_URL}/api`
 
 const Dashboard = ({ user, onLogout, products = [] }) => {
   const [activeTab, setActiveTab] = useState("dashboard")
@@ -36,7 +37,6 @@ const Dashboard = ({ user, onLogout, products = [] }) => {
   const [selectedCategory, setSelectedCategory] = useState("All")
 
   const [cart, setCart] = useState([])
-  const [showCart, setShowCart] = useState(false)
   const [showProductModal, setShowProductModal] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState(null)
   const [showOrderModal, setShowOrderModal] = useState(false)
@@ -78,9 +78,9 @@ const Dashboard = ({ user, onLogout, products = [] }) => {
     if (token) {
       fetchOrders()
     }
-  }, [token])
+  }, [token, fetchOrders])
 
-  const fetchOrders = async () => {
+  const fetchOrders = useCallback(async () => {
     try {
       setIsLoading(true)
       const response = await fetch(`${API_URL}/orders/`, {
@@ -100,16 +100,16 @@ const Dashboard = ({ user, onLogout, products = [] }) => {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [token])
 
   // Fetch user's reviews
   useEffect(() => {
     if (token) {
       fetchUserReviews()
     }
-  }, [token])
+  }, [token, fetchUserReviews])
 
-  const fetchUserReviews = async () => {
+  const fetchUserReviews = useCallback(async () => {
     try {
       const response = await fetch(`${API_URL}/reviews/`, {
         headers: {
@@ -126,7 +126,7 @@ const Dashboard = ({ user, onLogout, products = [] }) => {
     } catch (error) {
       console.error("Error fetching user reviews:", error)
     }
-  }
+  }, [token])
 
   // Fetch product reviews when a product is selected
   useEffect(() => {
@@ -312,10 +312,8 @@ const Dashboard = ({ user, onLogout, products = [] }) => {
       })
 
       if (response.ok) {
-        const data = await response.json()
-        // Update user reviews
+        await response.json()
         fetchUserReviews()
-        // Update product reviews
         fetchProductReviews(selectedProduct.id)
         setShowReviewModal(false)
         alert("Review submitted successfully!")
@@ -367,12 +365,9 @@ const Dashboard = ({ user, onLogout, products = [] }) => {
       })
 
       if (response.ok) {
-        const data = await response.json()
-        // Clear cart
+        await response.json()
         setCart([])
-        // Refresh orders
         fetchOrders()
-        // Close the place order modal
         setShowPlaceOrderModal(false)
         alert("Order placed successfully!")
         setActiveTab("orders")

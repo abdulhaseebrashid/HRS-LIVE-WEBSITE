@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FaUser,
@@ -138,6 +139,9 @@ const groupedProducts = products.reduce((acc, product) => {
   return acc;
 }, {});
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const apiUrl = (path) => `${API_BASE_URL}${path}`;
+
 function App() {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
@@ -187,7 +191,6 @@ function App() {
     // Check for token in URL parameters (for Google OAuth redirect)
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get("token");
-    const userId = urlParams.get("user_id");
     const isAdminParam = urlParams.get("is_admin");
 
     if (token) {
@@ -229,7 +232,7 @@ function App() {
   // Fetch user data with token
   const fetchUserData = async (token, adminStatus = false) => {
     try {
-      const response = await fetch("http://localhost:8000/api/user/", {
+      const response = await fetch(apiUrl("/api/user/"), {
         headers: {
           Authorization: `Token ${token}`,
         },
@@ -325,6 +328,11 @@ function App() {
 
   // Intersection observer for sections
   useEffect(() => {
+    const homeEl = homeRef.current;
+    const productsEl = productsRef.current;
+    const featuresEl = featuresRef.current;
+    const aboutEl = aboutRef.current;
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -336,16 +344,16 @@ function App() {
       { threshold: 0.5 }
     );
 
-    if (homeRef.current) observer.observe(homeRef.current);
-    if (productsRef.current) observer.observe(productsRef.current);
-    if (featuresRef.current) observer.observe(featuresRef.current);
-    if (aboutRef.current) observer.observe(aboutRef.current);
+    if (homeEl) observer.observe(homeEl);
+    if (productsEl) observer.observe(productsEl);
+    if (featuresEl) observer.observe(featuresEl);
+    if (aboutEl) observer.observe(aboutEl);
 
     return () => {
-      if (homeRef.current) observer.unobserve(homeRef.current);
-      if (productsRef.current) observer.unobserve(productsRef.current);
-      if (featuresRef.current) observer.unobserve(featuresRef.current);
-      if (aboutRef.current) observer.unobserve(aboutRef.current);
+      if (homeEl) observer.unobserve(homeEl);
+      if (productsEl) observer.unobserve(productsEl);
+      if (featuresEl) observer.unobserve(featuresEl);
+      if (aboutEl) observer.unobserve(aboutEl);
     };
   }, []);
 
@@ -365,7 +373,7 @@ function App() {
     try {
       if (isLogin) {
         // Login request
-        const response = await fetch("http://localhost:8000/api/login/", {
+        const response = await fetch(apiUrl("/api/login/"), {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -407,7 +415,7 @@ function App() {
         }
       } else {
         // Register request
-        const response = await fetch("http://localhost:8000/api/register/", {
+        const response = await fetch(apiUrl("/api/register/"), {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -455,7 +463,7 @@ function App() {
   const handleGoogleLogin = () => {
     // Add a timestamp to force a new Google auth session
     const timestamp = new Date().getTime();
-    window.location.href = `http://localhost:8000/api/google/login/?t=${timestamp}`;
+    window.location.href = `${apiUrl("/api/google/login/")}?t=${timestamp}`;
   };
 
   const handleLogout = async () => {
@@ -470,7 +478,7 @@ function App() {
 
       if (token) {
         // Regular logout from our backend
-        await fetch("http://localhost:8000/api/logout/", {
+        await fetch(apiUrl("/api/logout/"), {
           method: "POST",
           headers: {
             Authorization: `Token ${token}`,
@@ -480,7 +488,7 @@ function App() {
         // If user logged in via Google, also log them out from Google
         if (isGoogleAuth) {
           // Redirect to Google logout endpoint first, then come back
-          await fetch("http://localhost:8000/api/google/logout/", {
+          await fetch(apiUrl("/api/google/logout/"), {
             method: "GET",
           });
         }
@@ -570,16 +578,13 @@ function App() {
     setResetSuccess("");
 
     try {
-      const response = await fetch(
-        "http://localhost:8000/api/password/reset/request/",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email: resetEmail }),
-        }
-      );
+      const response = await fetch(apiUrl("/api/password/reset/request/"), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: resetEmail }),
+      });
 
       const data = await response.json();
 
@@ -604,16 +609,13 @@ function App() {
     setResetSuccess("");
 
     try {
-      const response = await fetch(
-        "http://localhost:8000/api/password/reset/verify-otp/",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email: resetEmail, otp: resetOTP }),
-        }
-      );
+      const response = await fetch(apiUrl("/api/password/reset/verify-otp/"), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: resetEmail, otp: resetOTP }),
+      });
 
       const data = await response.json();
 
@@ -645,21 +647,18 @@ function App() {
     }
 
     try {
-      const response = await fetch(
-        "http://localhost:8000/api/password/reset/confirm/",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: resetEmail,
-            reset_token: resetToken,
-            new_password: newPassword,
-            confirm_password: confirmNewPassword,
-          }),
-        }
-      );
+      const response = await fetch(apiUrl("/api/password/reset/confirm/"), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: resetEmail,
+          reset_token: resetToken,
+          new_password: newPassword,
+          confirm_password: confirmNewPassword,
+        }),
+      });
 
       const data = await response.json();
 
