@@ -170,6 +170,8 @@ function App() {
   
   // Menu modal state
   const [showMenuModal, setShowMenuModal] = useState(false)
+  // Story modal state
+  const [showStoryModal, setShowStoryModal] = useState(false)
 
   const homeRef = useRef(null)
   const productsRef = useRef(null)
@@ -846,18 +848,18 @@ function App() {
 
         <div className="hero-content">
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            initial={{ opacity: 0, y: 30, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.8, type: "spring", stiffness: 100 }}
             className="hero-title"
           >
             HRS Frozen Foods
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 0.8, delay: 0.3, type: "spring" }}
             className="hero-subtitle"
           >
             Eat Healthy, Live Healthy with HRS Foods. We bring you high-quality frozen foods that are convenient,
@@ -865,12 +867,18 @@ function App() {
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.5, type: "spring" }}
             className="hero-cta"
           >
-            <div className="search-container">
+            <motion.div 
+              className="search-container"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.6, type: "spring" }}
+              whileHover={{ scale: 1.02 }}
+            >
               <input
                 type="text"
                 placeholder="Search for frozen products..."
@@ -880,13 +888,16 @@ function App() {
               />
               <motion.button
                 className="search-btn"
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.08, boxShadow: "0 10px 30px rgba(229, 57, 53, 0.4)" }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => scrollToSection(productsRef)}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.8 }}
               >
                 Explore Products
               </motion.button>
-            </div>
+            </motion.div>
           </motion.div>
         </div>
       </section>
@@ -901,52 +912,107 @@ function App() {
 
       {/* Products Section */}
       <section id="products" ref={productsRef} className="products-section">
-        <h2 className="section-title">Our Premium Frozen Products</h2>
+        <motion.h2 
+          className="section-title products-title"
+          initial={{ opacity: 0, y: -30, scale: 0.9 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.8, type: "spring", stiffness: 100 }}
+          viewport={{ once: true }}
+        >
+          Our Premium Frozen Products
+        </motion.h2>
 
-        <div className="category-filter">
-          {categories.map((category) => (
+        <motion.div 
+          className="category-filter"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          viewport={{ once: true }}
+        >
+          {categories.map((category, index) => (
             <motion.button
               key={category}
               className={`category-btn ${selectedCategory === category ? "active" : ""}`}
               onClick={() => filterProductsByCategory(category)}
-              whileHover={{ scale: 1.05 }}
+              initial={{ opacity: 0, scale: 0.8, y: 20 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 + index * 0.1, type: "spring", stiffness: 150 }}
+              viewport={{ once: true }}
+              whileHover={{ scale: 1.1, y: -3, boxShadow: "0 8px 25px rgba(229, 57, 53, 0.4)" }}
               whileTap={{ scale: 0.95 }}
             >
               {category}
             </motion.button>
           ))}
-        </div>
+        </motion.div>
 
-        <div className="products-grid">
+        <motion.div 
+          className="products-grid"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          viewport={{ once: true }}
+        >
           {getFilteredProducts().map((product, index) => (
             <motion.div
               key={product.id}
               className="product-card"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              initial={{ opacity: 0, y: 50, scale: 0.8, rotateX: -15 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.1, type: "spring", stiffness: 100 }}
               viewport={{ once: true }}
+              whileHover={{ y: -15, scale: 1.05, rotateY: 5, boxShadow: "0 20px 50px rgba(229, 57, 53, 0.3)" }}
             >
-              <div className="product-image">
+              <motion.div 
+                className="product-image"
+                whileHover={{ scale: 1.1 }}
+                transition={{ duration: 0.3 }}
+              >
                 <img src={product.image || "/placeholder.svg"} alt={product.name} />
-              </div>
-              <div className="product-category">{product.category}</div>
-              <h3>{product.name}</h3>
-              <p>{product.description}</p>
+              </motion.div>
+              <motion.div 
+                className="product-category"
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.4, delay: 0.2 + index * 0.1 }}
+                viewport={{ once: true }}
+              >
+                {product.category}
+              </motion.div>
+              <motion.h3
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
+                viewport={{ once: true }}
+              >
+                {product.name}
+              </motion.h3>
+              <motion.p
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 0.4, delay: 0.4 + index * 0.1 }}
+                viewport={{ once: true }}
+              >
+                {product.description}
+              </motion.p>
               <motion.button 
                 className="product-btn" 
-                whileHover={{ scale: 1.05 }} 
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.1, boxShadow: "0 8px 25px rgba(229, 57, 53, 0.5)" }} 
+                whileTap={{ scale: 0.9 }}
                 onClick={() => {
                   setSelectedProduct(product)
                   setShowProductModal(true)
                 }}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
+                viewport={{ once: true }}
               >
                 View Details
               </motion.button>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </section>
 
       {/* Location Section */}
@@ -1089,16 +1155,33 @@ function App() {
 
       {/* Features Section */}
       <section id="features" ref={featuresRef} className="features-section">
-        <h2 className="section-title">Why Choose HRS Frozen Foods</h2>
+        <motion.h2
+          className="section-title features-title"
+          style={{ textAlign: "center", width: "100%", display: "block" }}
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          viewport={{ once: true }}
+        >
+          Why Choose HRS Frozen Foods
+        </motion.h2>
 
-        <div className="features-grid">
+        <motion.div
+          className="features-grid"
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.7, delay: 0.1 }}
+          viewport={{ once: true }}
+        >
           <motion.div
             className="feature-card"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            initial={{ opacity: 0, y: 40, rotateX: -10 }}
+            whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+            transition={{ duration: 0.6, delay: 0.1, type: "spring", stiffness: 100 }}
             viewport={{ once: true }}
+            whileHover={{ y: -10, scale: 1.03 }}
           >
+            <div className="feature-glow"></div>
             <div className="feature-icon">🥩</div>
             <h3>Premium Quality</h3>
             <p>We use only the finest ingredients, flash-frozen to preserve flavor and nutrients.</p>
@@ -1106,11 +1189,13 @@ function App() {
 
           <motion.div
             className="feature-card"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
+            initial={{ opacity: 0, y: 40, rotateX: -10 }}
+            whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+            transition={{ duration: 0.6, delay: 0.2, type: "spring", stiffness: 100 }}
             viewport={{ once: true }}
+            whileHover={{ y: -10, scale: 1.03 }}
           >
+            <div className="feature-glow"></div>
             <div className="feature-icon">🚚</div>
             <h3>Fast & Free Delivery</h3>
             <p>Enjoy fast and free delivery in Rawalpindi and Islamabad areas.</p>
@@ -1118,11 +1203,13 @@ function App() {
 
           <motion.div
             className="feature-card"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            initial={{ opacity: 0, y: 40, rotateX: -10 }}
+            whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+            transition={{ duration: 0.6, delay: 0.3, type: "spring", stiffness: 100 }}
             viewport={{ once: true }}
+            whileHover={{ y: -10, scale: 1.03 }}
           >
+            <div className="feature-glow"></div>
             <div className="feature-icon">🍽️</div>
             <h3>Variety</h3>
             <p>From chicken and beef specialties to samosas and fries, we offer a wide range of products.</p>
@@ -1130,16 +1217,18 @@ function App() {
 
           <motion.div
             className="feature-card"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+            initial={{ opacity: 0, y: 40, rotateX: -10 }}
+            whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+            transition={{ duration: 0.6, delay: 0.4, type: "spring", stiffness: 100 }}
             viewport={{ once: true }}
+            whileHover={{ y: -10, scale: 1.03 }}
           >
+            <div className="feature-glow"></div>
             <div className="feature-icon">❤️</div>
             <h3>Healthy Options</h3>
             <p>Our motto "Eat Healthy, Live Healthy" reflects our commitment to nutritious food options.</p>
           </motion.div>
-        </div>
+        </motion.div>
       </section>
 
       {/* About Section */}
@@ -1152,7 +1241,7 @@ function App() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="section-title">About HRS Foods</h2>
+            <h2 className="section-title ">About HRS Foods</h2>
             <p>
               HRS Foods is dedicated to providing premium quality frozen food products that make meal preparation
               convenient without compromising on taste or nutrition. Our range includes authentic Pakistani favorites
@@ -1162,7 +1251,12 @@ function App() {
               We believe in our motto "Eat Healthy, Live Healthy" and ensure that all our products are made with the
               finest ingredients and prepared according to traditional recipes with modern food safety standards.
             </p>
-            <motion.button className="about-btn" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <motion.button
+              className="about-btn"
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setShowStoryModal(true)}
+            >
               Our Story
             </motion.button>
           </motion.div>
@@ -1644,11 +1738,57 @@ function App() {
                 </div>
 
                 <div className="product-detail-info">
-                  <div className="product-detail-category">{selectedProduct.category}</div>
-                  <h2 className="product-detail-name">{selectedProduct.name}</h2>
-                  <p className="product-detail-description">{selectedProduct.description}</p>
+                  <motion.div 
+                    className="product-detail-category"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                  >
+                    {selectedProduct.category}
+                  </motion.div>
+                  <motion.h2 
+                    className="product-detail-name"
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.3 }}
+                  >
+                    {selectedProduct.name}
+                  </motion.h2>
+                  <motion.p 
+                    className="product-detail-description"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.4 }}
+                  >
+                    {selectedProduct.description}
+                  </motion.p>
                   
-                  <div className="product-detail-specs">
+                  {/* Enhanced Mouth-watering Description */}
+                  <motion.div 
+                    className="product-mouth-watering"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5, delay: 0.5 }}
+                  >
+                    <h3 className="mouth-watering-title">🍽️ Why You'll Love It</h3>
+                    <p className="mouth-watering-text">
+                      {selectedProduct.category.includes("Chicken") 
+                        ? "Succulent, tender, and bursting with authentic flavors! Our premium chicken products are marinated with a secret blend of spices that will transport your taste buds to culinary heaven. Perfectly cooked every time, these mouth-watering delights are ready to become the star of your meal!"
+                        : selectedProduct.category.includes("Beef")
+                        ? "Rich, hearty, and incredibly satisfying! Our premium beef products are crafted with the finest cuts, seasoned to perfection with traditional spices. Each bite delivers a explosion of flavors that will leave you craving for more. A true feast for meat lovers!"
+                        : selectedProduct.category.includes("Samosa") || selectedProduct.category.includes("Roll")
+                        ? "Crispy, golden, and absolutely irresistible! Each bite reveals a perfect harmony of flavors - from the flaky, buttery crust to the rich, savory filling. These traditional favorites are made with love and care, bringing authentic Pakistani street food flavors right to your kitchen!"
+                        : "Fresh, delicious, and perfectly prepared! Made with premium ingredients and our secret recipe, this product delivers exceptional taste and quality. Whether it's a quick snack or a complete meal, you're guaranteed satisfaction with every bite!"
+                      }
+                    </p>
+                  </motion.div>
+                  
+                  <motion.div 
+                    className="product-detail-specs"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.6 }}
+                  >
                     <div className="product-spec-item">
                       <span className="spec-label">Category:</span>
                       <span className="spec-value">{selectedProduct.category}</span>
@@ -1657,14 +1797,32 @@ function App() {
                       <span className="spec-label">Product ID:</span>
                       <span className="spec-value">#{selectedProduct.id}</span>
                     </div>
-                  </div>
+                    <div className="product-spec-item price-item">
+                      <span className="spec-label">Price:</span>
+                      <span className="spec-value price-coming-soon">Coming Soon</span>
+                    </div>
+                  </motion.div>
 
                   <div className="product-detail-actions">
                     <motion.button
-                      className="product-detail-btn"
-                      whileHover={{ scale: 1.05 }}
+                      className="product-detail-btn contact-btn"
+                      whileHover={{ scale: 1.08, boxShadow: "0 10px 30px rgba(229, 57, 53, 0.5)" }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => scrollToSection(aboutRef)}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: 0.7 }}
+                    >
+                      Contact Us
+                    </motion.button>
+                    <motion.button
+                      className="product-detail-btn close-btn"
+                      whileHover={{ scale: 1.08 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => setShowProductModal(false)}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: 0.8 }}
                     >
                       Close
                     </motion.button>
@@ -1705,6 +1863,44 @@ function App() {
                   alt="HRS Foods Complete Menu"
                   className="menu-modal-image"
                 />
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Story Modal */}
+      <AnimatePresence>
+        {showStoryModal && (
+          <motion.div
+            className="story-modal-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowStoryModal(false)}
+          >
+            <motion.div
+              className="story-modal-content"
+              initial={{ opacity: 0, scale: 0.9, y: 30 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 30 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button className="story-modal-close" onClick={() => setShowStoryModal(false)}>
+                <FaTimes />
+              </button>
+              <div className="story-modal-body">
+                <h3 className="story-modal-title">Our Story</h3>
+                <p>
+                  HRS Foods started with a simple vision: bringing premium quality frozen foods to every household without
+                  compromising on taste, nutrition, or convenience. From our authentic kababs and samosas to our signature fries,
+                  every product is crafted with care, premium ingredients, and modern food safety standards.
+                </p>
+                <p>
+                  We serve Islamabad, Rawalpindi, and Sargodha with fast, reliable delivery, ensuring your meals are always
+                  ready when you are. Our motto, "Eat Healthy, Live Healthy," guides everything we do—because we believe great
+                  food brings people together.
+                </p>
               </div>
             </motion.div>
           </motion.div>
