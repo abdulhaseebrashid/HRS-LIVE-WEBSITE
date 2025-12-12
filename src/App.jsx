@@ -152,18 +152,24 @@ function App() {
   const [user, setUser] = useState(null)
   const [authError, setAuthError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
-  const [authSource, setAuthSource] = useState("") // Track if user logged in via Google
 
-  // Password reset states
-  const [showPasswordReset, setShowPasswordReset] = useState(false)
-  const [resetStep, setResetStep] = useState(1) // 1: Email, 2: OTP, 3: New Password
-  const [resetEmail, setResetEmail] = useState("")
-  const [resetOTP, setResetOTP] = useState("")
-  const [resetToken, setResetToken] = useState("")
-  const [newPassword, setNewPassword] = useState("")
-  const [confirmNewPassword, setConfirmNewPassword] = useState("")
-  const [resetError, setResetError] = useState("")
-  const [resetSuccess, setResetSuccess] = useState("")
+  // Password reset states (commented out - not used in landing page)
+  // const [showPasswordReset, setShowPasswordReset] = useState(false)
+  // const [resetStep, setResetStep] = useState(1) // 1: Email, 2: OTP, 3: New Password
+  // const [resetEmail, setResetEmail] = useState("")
+  // const [resetOTP, setResetOTP] = useState("")
+  // const [resetToken, setResetToken] = useState("")
+  // const [newPassword, setNewPassword] = useState("")
+  // const [confirmNewPassword, setConfirmNewPassword] = useState("")
+  // const [resetError, setResetError] = useState("")
+  // const [resetSuccess, setResetSuccess] = useState("")
+  
+  // Product detail modal states
+  const [showProductModal, setShowProductModal] = useState(false)
+  const [selectedProduct, setSelectedProduct] = useState(null)
+  
+  // Menu modal state
+  const [showMenuModal, setShowMenuModal] = useState(false)
 
   const homeRef = useRef(null)
   const productsRef = useRef(null)
@@ -172,7 +178,7 @@ function App() {
   const aboutRef = useRef(null)
   const autoPlayRef = useRef(null)
   const formRef = useRef(null)
-  const resetFormRef = useRef(null)
+  // const resetFormRef = useRef(null) // Commented out - not used in landing page
 
   // Add this useEffect at the beginning of your App component, right after all your useState declarations
   // This will check for token in URL parameters when the app loads
@@ -475,7 +481,7 @@ function App() {
       setUser(null)
       setIsAuthenticated(false)
       setIsAdmin(false)
-      setAuthSource("")
+      // setAuthSource("") // Commented out - not used in landing page
 
       // Reset form data to prevent auto-fill
       setFormData({
@@ -505,38 +511,39 @@ function App() {
     }
   }
 
-  const toggleForm = () => {
-    setIsLogin(!isLogin)
-    setAuthError("")
-    // Reset form data when switching between login and signup
-    setFormData({
-      firstName: "",
-      lastName: "",
-      username: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      phoneNumber: "",
-    })
+  // Toggle form function (commented out - not used in landing page)
+  // const toggleForm = () => {
+  //   setIsLogin(!isLogin)
+  //   setAuthError("")
+  //   // Reset form data when switching between login and signup
+  //   setFormData({
+  //     firstName: "",
+  //     lastName: "",
+  //     username: "",
+  //     email: "",
+  //     password: "",
+  //     confirmPassword: "",
+  //     phoneNumber: "",
+  //   })
 
-    // Reset the form
-    if (formRef.current) {
-      formRef.current.reset()
-    }
-  }
+  //   // Reset the form
+  //   if (formRef.current) {
+  //     formRef.current.reset()
+  //   }
+  // }
 
   // Password Reset Functions
   const handleForgotPassword = () => {
     setShowAuthModal(false)
-    setShowPasswordReset(true)
-    setResetStep(1)
-    setResetEmail("")
-    setResetOTP("")
-    setResetToken("")
-    setNewPassword("")
-    setConfirmNewPassword("")
-    setResetError("")
-    setResetSuccess("")
+    // setShowPasswordReset(true) // Commented out - not used in landing page
+    // setResetStep(1)
+    // setResetEmail("")
+    // setResetOTP("")
+    // setResetToken("") // Commented out - not used in landing page
+    // setNewPassword("")
+    // setConfirmNewPassword("")
+    // setResetError("")
+    // setResetSuccess("")
   }
 
   // const handleResetEmailSubmit = async (e) => {
@@ -664,21 +671,22 @@ function App() {
   //   }
   // };
 
-  const backToLogin = () => {
-    setShowPasswordReset(false)
-    setShowAuthModal(true)
-    setIsLogin(true)
+  // Back to login function (commented out - not used in landing page)
+  // const backToLogin = () => {
+  //   setShowPasswordReset(false)
+  //   setShowAuthModal(true)
+  //   setIsLogin(true)
 
-    // Reset all password reset fields
-    setResetStep(1)
-    setResetEmail("")
-    setResetOTP("")
-    setResetToken("")
-    setNewPassword("")
-    setConfirmNewPassword("")
-    setResetError("")
-    setResetSuccess("")
-  }
+    // Reset all password reset fields (commented out - not used in landing page)
+    // setResetStep(1)
+    // setResetEmail("")
+    // setResetOTP("")
+    // setResetToken("") // Commented out - not used in landing page
+    // setNewPassword("")
+    // setConfirmNewPassword("")
+    // setResetError("")
+    // setResetSuccess("")
+  // }
 
   const scrollToSection = (sectionRef) => {
     sectionRef.current.scrollIntoView({ behavior: "smooth" })
@@ -925,7 +933,15 @@ function App() {
               <div className="product-category">{product.category}</div>
               <h3>{product.name}</h3>
               <p>{product.description}</p>
-              <motion.button className="product-btn" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <motion.button 
+                className="product-btn" 
+                whileHover={{ scale: 1.05 }} 
+                whileTap={{ scale: 0.95 }}
+                onClick={() => {
+                  setSelectedProduct(product)
+                  setShowProductModal(true)
+                }}
+              >
                 View Details
               </motion.button>
             </motion.div>
@@ -935,64 +951,139 @@ function App() {
 
       {/* Location Section */}
       <section id="location" ref={locationRef} className="location-section">
-        <h2 className="section-title">Our Locations</h2>
+        <motion.h2
+          className="section-title location-title"
+          style={{ textAlign: "center" }}
+          initial={{ opacity: 0, y: -30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+          Our Locations
+        </motion.h2>
 
         <div className="location-container">
           <motion.div
             className="location-intro"
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <h3>HRS Food Delivery is Present All Over</h3>
-            <div className="location-text">
-              <p className="city-text">Islamabad</p>
-              <span className="dot-separator">•</span>
-              <p className="city-text">Sargodha</p>
-              <span className="dot-separator">•</span>
-              <p className="city-text">Rawalpindi</p>
-            </div>
-            <p className="delivery-tagline">Get Your Delivery Right On The Spot — Fast, Reliable, and Easy!</p>
+            <motion.h3 
+              className="location-intro-title"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              viewport={{ once: true }}
+            >
+              HRS Food Delivery is Present All Over
+            </motion.h3>
+            
+            <motion.div 
+              className="location-cities-container"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              viewport={{ once: true }}
+            >
+              <motion.div
+                className="city-card"
+                initial={{ opacity: 0, x: -50, scale: 0.8 }}
+                whileInView={{ opacity: 1, x: 0, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.5, type: "spring", stiffness: 100 }}
+                viewport={{ once: true }}
+                whileHover={{ scale: 1.1, y: -5 }}
+              >
+                <div className="city-icon">🏛️</div>
+                <h4 className="city-name">Islamabad</h4>
+                <p className="city-description">Capital City</p>
+              </motion.div>
+
+              <motion.div
+                className="city-card"
+                initial={{ opacity: 0, y: -50, scale: 0.8 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.6, type: "spring", stiffness: 100 }}
+                viewport={{ once: true }}
+                whileHover={{ scale: 1.1, y: -5 }}
+              >
+                <div className="city-icon">🌆</div>
+                <h4 className="city-name">Sargodha</h4>
+                <p className="city-description">City of Eagles</p>
+              </motion.div>
+
+              <motion.div
+                className="city-card"
+                initial={{ opacity: 0, x: 50, scale: 0.8 }}
+                whileInView={{ opacity: 1, x: 0, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.7, type: "spring", stiffness: 100 }}
+                viewport={{ once: true }}
+                whileHover={{ scale: 1.1, y: -5 }}
+              >
+                <div className="city-icon">🏙️</div>
+                <h4 className="city-name">Rawalpindi</h4>
+                <p className="city-description">Twin City</p>
+              </motion.div>
+            </motion.div>
+
+            <motion.p 
+              className="delivery-tagline"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+              viewport={{ once: true }}
+            >
+              Get Your Delivery Right On The Spot — Fast, Reliable, and Easy!
+            </motion.p>
           </motion.div>
 
-          <div className="location-features-grid">
+          <motion.div 
+            className="location-features-grid"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.9 }}
+            viewport={{ once: true }}
+          >
             <motion.div
               className="location-feature-card"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
+              initial={{ opacity: 0, y: 50, rotateX: -15 }}
+              whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+              transition={{ duration: 0.6, delay: 1.0, type: "spring", stiffness: 80 }}
               viewport={{ once: true }}
+              whileHover={{ y: -10, scale: 1.05 }}
             >
-              {/* <div className="location-feature-icon">📍</div>
+              <div className="location-feature-icon">📍</div>
               <h4>Wide Coverage</h4>
-              <p>Serving Islamabad, Sargodha, and Rawalpindi with dedicated delivery services.</p> */}
+              <p>Serving Islamabad, Sargodha, and Rawalpindi with dedicated delivery services.</p>
             </motion.div>
 
             <motion.div
               className="location-feature-card"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
+              initial={{ opacity: 0, y: 50, rotateX: -15 }}
+              whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+              transition={{ duration: 0.6, delay: 1.1, type: "spring", stiffness: 80 }}
               viewport={{ once: true }}
+              whileHover={{ y: -10, scale: 1.05 }}
             >
-              {/* <div className="location-feature-icon">⚡</div>
+              <div className="location-feature-icon">⚡</div>
               <h4>Fast Delivery</h4>
-              <p>Quick and efficient delivery right to your doorstep, ensuring freshness.</p> */}
+              <p>Quick and efficient delivery right to your doorstep, ensuring freshness.</p>
             </motion.div>
 
             <motion.div
               className="location-feature-card"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+              initial={{ opacity: 0, y: 50, rotateX: -15 }}
+              whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+              transition={{ duration: 0.6, delay: 1.2, type: "spring", stiffness: 80 }}
               viewport={{ once: true }}
+              whileHover={{ y: -10, scale: 1.05 }}
             >
-              {/* <div className="location-feature-icon">✅</div>
+              <div className="location-feature-icon">✅</div>
               <h4>Reliable Service</h4>
-              <p>Trusted by thousands of customers for consistent quality and punctuality.</p> */}
+              <p>Trusted by thousands of customers for consistent quality and punctuality.</p>
             </motion.div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -1083,7 +1174,13 @@ function App() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <img src="/images/menu1.jpeg" alt="HRS Foods Menu" className="menu-image" />
+            <img 
+              src="/images/menu1.jpeg" 
+              alt="HRS Foods Menu" 
+              className="menu-image" 
+              onClick={() => setShowMenuModal(true)}
+              style={{ cursor: 'pointer' }}
+            />
           </motion.div>
         </div>
       </section>
@@ -1346,8 +1443,8 @@ function App() {
         )}
       </AnimatePresence>
 
-      {/* Password Reset Modal */}
-      <AnimatePresence>
+      {/* Password Reset Modal - Commented out for landing page only */}
+      {/* <AnimatePresence>
         {showPasswordReset && (
           <motion.div
             className="auth-modal-overlay"
@@ -1507,6 +1604,107 @@ function App() {
                 <button type="button" className="back-to-login" onClick={backToLogin}>
                   <FaArrowLeft /> Back to Login
                 </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence> */}
+
+      {/* Product Detail Modal */}
+      <AnimatePresence>
+        {showProductModal && selectedProduct && (
+          <motion.div
+            className="product-modal-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowProductModal(false)}
+          >
+            <motion.div
+              className="product-detail-modal"
+              initial={{ opacity: 0, scale: 0.9, y: 50 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 50 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                className="product-modal-close"
+                onClick={() => setShowProductModal(false)}
+              >
+                <FaTimes />
+              </button>
+
+              <div className="product-detail-content">
+                <div className="product-detail-image-container">
+                  <img
+                    src={selectedProduct.image || "/placeholder.svg"}
+                    alt={selectedProduct.name}
+                    className="product-detail-image"
+                  />
+                </div>
+
+                <div className="product-detail-info">
+                  <div className="product-detail-category">{selectedProduct.category}</div>
+                  <h2 className="product-detail-name">{selectedProduct.name}</h2>
+                  <p className="product-detail-description">{selectedProduct.description}</p>
+                  
+                  <div className="product-detail-specs">
+                    <div className="product-spec-item">
+                      <span className="spec-label">Category:</span>
+                      <span className="spec-value">{selectedProduct.category}</span>
+                    </div>
+                    <div className="product-spec-item">
+                      <span className="spec-label">Product ID:</span>
+                      <span className="spec-value">#{selectedProduct.id}</span>
+                    </div>
+                  </div>
+
+                  <div className="product-detail-actions">
+                    <motion.button
+                      className="product-detail-btn"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => setShowProductModal(false)}
+                    >
+                      Close
+                    </motion.button>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Menu Modal */}
+      <AnimatePresence>
+        {showMenuModal && (
+          <motion.div
+            className="menu-modal-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowMenuModal(false)}
+          >
+            <motion.div
+              className="menu-modal-content"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                className="menu-modal-close"
+                onClick={() => setShowMenuModal(false)}
+              >
+                <FaTimes />
+              </button>
+              <div className="menu-modal-image-container">
+                <img
+                  src="/images/menu1.jpeg"
+                  alt="HRS Foods Complete Menu"
+                  className="menu-modal-image"
+                />
               </div>
             </motion.div>
           </motion.div>
