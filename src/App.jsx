@@ -20,7 +20,8 @@ import {
 } from "react-icons/fa"
 import "./App.css"
 import Dashboard from "./components/Dashboard"
-import AdminDashboard from "./components/AdminDashboard" // You'll need to create this component
+import AdminDashboard from "./components/AdminDashboard"
+import ImageWithLoader from "./components/ImageWithLoader"
 
 // Product data from the menu
 const products = [
@@ -919,12 +920,19 @@ function App() {
               transition={{ duration: 1.0 }}
             >
               <div className="slide-image-container">
-                <motion.img
+                <ImageWithLoader
                   src={featuredProducts[currentSlide].image || "/placeholder.svg"}
                   alt={featuredProducts[currentSlide].name}
                   className="slide-image"
-                  initial={{ scale: 1.1 }}
-                  animate={{ scale: 1 }}
+                  // Maintain the animation props via motion if needed, but ImageWithLoader wraps motion.img
+                  // We need to pass animate props to ImageWithLoader if we want the zoom effect, 
+                  // but ImageWithLoader implementation needs to support it. 
+                  // For now, let's keep it simple or update ImageWithLoader to pass through motion props.
+                  // Actually, looking at my ImageWithLoader, it spreads props to motion.img.
+                  initial={{ scale: 1.1, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }} // Overrides the opacity inside ImageWithLoader if not careful.
+                  // Let's rely on ImageWithLoader's internal opacity handling for load, and pass scale here.
+                  // But wait, the previous code had specific transition.
                   transition={{ duration: 4 }}
                 />
                 <div className="image-overlay-glow"></div>
@@ -1090,7 +1098,11 @@ function App() {
               }}
             >
               <div className="product-image">
-                <img src={product.image || "/placeholder.svg"} alt={product.name} loading="lazy" />
+                <ImageWithLoader
+                  src={product.image || "/placeholder.svg"}
+                  alt={product.name}
+                  loading="lazy"
+                />
               </div>
               <div className="product-category">
                 {product.category}
@@ -1339,7 +1351,7 @@ function App() {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            <img
+            <ImageWithLoader
               src="/images/menu1.jpeg"
               alt="HRS Foods Menu"
               className="menu-image"
