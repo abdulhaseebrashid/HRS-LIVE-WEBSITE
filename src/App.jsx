@@ -769,6 +769,63 @@ function App() {
 
   const categories = ["All", ...Object.keys(groupedProducts)]
 
+  // Standard Premium Animation variants
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: "easeOut" }
+    }
+  }
+
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.1
+      }
+    }
+  }
+
+  const slideInRight = {
+    hidden: { opacity: 0, x: 50 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 0.7, ease: "easeOut" }
+    }
+  }
+
+  const slideInLeft = {
+    hidden: { opacity: 0, x: -50 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 0.7, ease: "easeOut" }
+    }
+  }
+
+  const scaleUp = {
+    hidden: { opacity: 0, scale: 0.9 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: { duration: 0.5, ease: "easeOut" }
+    }
+  }
+
+  const card3D = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut" }
+    }
+  }
+
   // If user is authenticated, show appropriate dashboard
   if (isAuthenticated && user) {
     if (isAdmin) {
@@ -842,8 +899,16 @@ function App() {
 
       {/* Rest of your landing page components */}
       {/* Hero Section with Slideshow */}
-      <section id="home" ref={homeRef} className="hero-section">
-        <div className="slideshow-container">
+      <section
+        id="home"
+        ref={homeRef}
+        className="hero-section"
+        style={{ background: "#111", position: "relative", overflow: "hidden", minHeight: "100vh" }}
+      >
+        <div
+          className="slideshow-container"
+          style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", zIndex: 0 }}
+        >
           <AnimatePresence mode="wait">
             <motion.div
               key={currentSlide}
@@ -851,14 +916,18 @@ function App() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 1.0 }}
             >
               <div className="slide-image-container">
-                <img
+                <motion.img
                   src={featuredProducts[currentSlide].image || "/placeholder.svg"}
                   alt={featuredProducts[currentSlide].name}
                   className="slide-image"
+                  initial={{ scale: 1.1 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 4 }}
                 />
+                <div className="image-overlay-glow"></div>
               </div>
               <div className="slide-content">
                 <motion.h2
@@ -877,6 +946,13 @@ function App() {
                 >
                   {featuredProducts[currentSlide].description}
                 </motion.p>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.6 }}
+                >
+                  <span className="premium-tag">Premium Quality</span>
+                </motion.div>
               </div>
             </motion.div>
           </AnimatePresence>
@@ -902,18 +978,18 @@ function App() {
 
         <div className="hero-content">
           <motion.h1
-            initial={{ opacity: 0, y: 30, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.8, type: "spring", stiffness: 100 }}
+            variants={scaleUp}
+            initial="hidden"
+            animate="visible"
             className="hero-title"
           >
             HRS Frozen Foods
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3, type: "spring" }}
+            variants={fadeInUp}
+            initial="hidden"
+            animate="visible"
             className="hero-subtitle"
           >
             Eat Healthy, Live Healthy with HRS Foods. We bring you high-quality frozen foods that are convenient,
@@ -921,16 +997,14 @@ function App() {
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 30, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.5, type: "spring" }}
+            variants={fadeInUp}
+            initial="hidden"
+            animate="visible"
             className="hero-cta"
           >
             <motion.div
               className="search-container"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.6, type: "spring" }}
+              whileFocus={{ scale: 1.02 }}
               whileHover={{ scale: 1.02 }}
             >
               <input
@@ -968,9 +1042,9 @@ function App() {
       <section id="products" ref={productsRef} className="products-section">
         <motion.h2
           className="section-title products-title"
-          initial={{ opacity: 0, y: -30, scale: 0.9 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.8, type: "spring", stiffness: 100 }}
+          variants={scaleUp}
+          initial="hidden"
+          whileInView="visible"
           viewport={{ once: true }}
         >
           Our Premium Frozen Products
@@ -978,9 +1052,9 @@ function App() {
 
         <motion.div
           className="category-filter"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          variants={fadeInUp}
+          initial="hidden"
+          whileInView="visible"
           viewport={{ once: true }}
         >
           {categories.map((category, index) => (
@@ -988,11 +1062,7 @@ function App() {
               key={category}
               className={`category-btn ${selectedCategory === category ? "active" : ""}`}
               onClick={() => filterProductsByCategory(category)}
-              initial={{ opacity: 0, scale: 0.8, y: 20 }}
-              whileInView={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 + index * 0.1, type: "spring", stiffness: 150 }}
-              viewport={{ once: true }}
-              whileHover={{ scale: 1.1, y: -3, boxShadow: "0 8px 25px rgba(229, 57, 53, 0.4)" }}
+              whileHover={{ scale: 1.05, y: -3 }}
               whileTap={{ scale: 0.95 }}
             >
               {category}
@@ -1002,68 +1072,42 @@ function App() {
 
         <motion.div
           className="products-grid"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          viewport={{ once: true }}
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
         >
           {getFilteredProducts().map((product, index) => (
             <motion.div
               key={product.id}
               className="product-card"
-              initial={{ opacity: 0, y: 50, scale: 0.8, rotateX: -15 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1, type: "spring", stiffness: 100 }}
-              viewport={{ once: true }}
-              whileHover={{ y: -15, scale: 1.05, rotateY: 5, boxShadow: "0 20px 50px rgba(229, 57, 53, 0.3)" }}
+              variants={card3D}
+              whileHover={{
+                y: -15,
+                scale: 1.05,
+                rotateY: 5,
+                transition: { duration: 0.4, ease: "easeOut" }
+              }}
             >
-              <motion.div
-                className="product-image"
-                whileHover={{ scale: 1.1 }}
-                transition={{ duration: 0.3 }}
-              >
-                <img src={product.image || "/placeholder.svg"} alt={product.name} />
-              </motion.div>
-              <motion.div
-                className="product-category"
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.4, delay: 0.2 + index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                {product.category}
-              </motion.div>
-              <div className="product-price-badge">
-                {typeof product.price === 'number' ? `PKR ${product.price}` : `PKR ${product.price}`}
+              <div className="product-image">
+                <img src={product.image || "/placeholder.svg"} alt={product.name} loading="lazy" />
               </div>
-              <motion.h3
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                {product.name}
-              </motion.h3>
-              <motion.p
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ duration: 0.4, delay: 0.4 + index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                {product.description}
-              </motion.p>
+              <div className="product-category">
+                {product.category}
+              </div>
+              <div className="product-price-badge">
+                {typeof product.price === 'number' ? `PKR ${product.price}` : product.price}
+              </div>
+              <h3>{product.name}</h3>
+              <p>{product.description}</p>
               <motion.button
                 className="product-btn"
-                whileHover={{ scale: 1.1, boxShadow: "0 8px 25px rgba(229, 57, 53, 0.5)" }}
+                whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => {
                   setSelectedProduct(product)
                   setShowProductModal(true)
                 }}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
-                viewport={{ once: true }}
               >
                 View Details
               </motion.button>
@@ -1105,17 +1149,14 @@ function App() {
 
             <motion.div
               className="location-cities-container"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
               viewport={{ once: true }}
             >
               <motion.div
                 className="city-card"
-                initial={{ opacity: 0, x: -50, scale: 0.8 }}
-                whileInView={{ opacity: 1, x: 0, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.5, type: "spring", stiffness: 100 }}
-                viewport={{ once: true }}
+                variants={scaleUp}
                 whileHover={{ scale: 1.1, y: -5 }}
               >
                 <div className="city-icon">🏛️</div>
@@ -1125,10 +1166,7 @@ function App() {
 
               <motion.div
                 className="city-card"
-                initial={{ opacity: 0, y: -50, scale: 0.8 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.6, type: "spring", stiffness: 100 }}
-                viewport={{ once: true }}
+                variants={scaleUp}
                 whileHover={{ scale: 1.1, y: -5 }}
               >
                 <div className="city-icon">🌆</div>
@@ -1138,10 +1176,7 @@ function App() {
 
               <motion.div
                 className="city-card"
-                initial={{ opacity: 0, x: 50, scale: 0.8 }}
-                whileInView={{ opacity: 1, x: 0, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.7, type: "spring", stiffness: 100 }}
-                viewport={{ once: true }}
+                variants={scaleUp}
                 whileHover={{ scale: 1.1, y: -5 }}
               >
                 <div className="city-icon">🏙️</div>
@@ -1152,9 +1187,9 @@ function App() {
 
             <motion.p
               className="delivery-tagline"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
+              variants={fadeInUp}
+              initial="hidden"
+              whileInView="visible"
               viewport={{ once: true }}
             >
               Get Your Delivery Right On The Spot — Fast, Reliable, and Easy!
@@ -1163,17 +1198,14 @@ function App() {
 
           <motion.div
             className="location-features-grid"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.9 }}
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
             viewport={{ once: true }}
           >
             <motion.div
               className="location-feature-card"
-              initial={{ opacity: 0, y: 50, rotateX: -15 }}
-              whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-              transition={{ duration: 0.6, delay: 1.0, type: "spring", stiffness: 80 }}
-              viewport={{ once: true }}
+              variants={fadeInUp}
               whileHover={{ y: -10, scale: 1.05 }}
             >
               <div className="location-feature-icon">📍</div>
@@ -1183,10 +1215,7 @@ function App() {
 
             <motion.div
               className="location-feature-card"
-              initial={{ opacity: 0, y: 50, rotateX: -15 }}
-              whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-              transition={{ duration: 0.6, delay: 1.1, type: "spring", stiffness: 80 }}
-              viewport={{ once: true }}
+              variants={fadeInUp}
               whileHover={{ y: -10, scale: 1.05 }}
             >
               <div className="location-feature-icon">⚡</div>
@@ -1196,10 +1225,7 @@ function App() {
 
             <motion.div
               className="location-feature-card"
-              initial={{ opacity: 0, y: 50, rotateX: -15 }}
-              whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-              transition={{ duration: 0.6, delay: 1.2, type: "spring", stiffness: 80 }}
-              viewport={{ once: true }}
+              variants={fadeInUp}
               whileHover={{ y: -10, scale: 1.05 }}
             >
               <div className="location-feature-icon">✅</div>
@@ -1225,17 +1251,14 @@ function App() {
 
         <motion.div
           className="features-grid"
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7, delay: 0.1 }}
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
           viewport={{ once: true }}
         >
           <motion.div
             className="feature-card"
-            initial={{ opacity: 0, y: 40, rotateX: -10 }}
-            whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-            transition={{ duration: 0.6, delay: 0.1, type: "spring", stiffness: 100 }}
-            viewport={{ once: true }}
+            variants={fadeInUp}
             whileHover={{ y: -10, scale: 1.03 }}
           >
             <div className="feature-glow"></div>
@@ -1246,10 +1269,7 @@ function App() {
 
           <motion.div
             className="feature-card"
-            initial={{ opacity: 0, y: 40, rotateX: -10 }}
-            whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-            transition={{ duration: 0.6, delay: 0.2, type: "spring", stiffness: 100 }}
-            viewport={{ once: true }}
+            variants={fadeInUp}
             whileHover={{ y: -10, scale: 1.03 }}
           >
             <div className="feature-glow"></div>
@@ -1260,10 +1280,7 @@ function App() {
 
           <motion.div
             className="feature-card"
-            initial={{ opacity: 0, y: 40, rotateX: -10 }}
-            whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-            transition={{ duration: 0.6, delay: 0.3, type: "spring", stiffness: 100 }}
-            viewport={{ once: true }}
+            variants={fadeInUp}
             whileHover={{ y: -10, scale: 1.03 }}
           >
             <div className="feature-glow"></div>
@@ -1274,10 +1291,7 @@ function App() {
 
           <motion.div
             className="feature-card"
-            initial={{ opacity: 0, y: 40, rotateX: -10 }}
-            whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-            transition={{ duration: 0.6, delay: 0.4, type: "spring", stiffness: 100 }}
-            viewport={{ once: true }}
+            variants={fadeInUp}
             whileHover={{ y: -10, scale: 1.03 }}
           >
             <div className="feature-glow"></div>
@@ -1293,9 +1307,9 @@ function App() {
         <div className="about-content">
           <motion.div
             className="about-text"
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
+            variants={slideInLeft}
+            initial="hidden"
+            whileInView="visible"
             viewport={{ once: true }}
           >
             <h2 className="section-title ">About HRS Foods</h2>
@@ -1320,15 +1334,16 @@ function App() {
 
           <motion.div
             className="about-image"
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
+            variants={slideInRight}
+            initial="hidden"
+            whileInView="visible"
             viewport={{ once: true }}
           >
             <img
               src="/images/menu1.jpeg"
               alt="HRS Foods Menu"
               className="menu-image"
+              loading="lazy"
               onClick={() => setShowMenuModal(true)}
               style={{ cursor: 'pointer' }}
             />

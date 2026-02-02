@@ -124,17 +124,7 @@ html {
 }
 
 /* Hero Section with Slideshow */
-.hero-section {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 6rem 2rem 2rem;
-  position: relative;
-  overflow: hidden;
-  background: linear-gradient(135deg, rgba(183, 28, 28, 0.9) 0%, rgba(229, 57, 53, 0.9) 100%);
-}
+/* Hero styles moved to App.css to avoid conflicts */
 
 .slideshow-container {
   position: relative;

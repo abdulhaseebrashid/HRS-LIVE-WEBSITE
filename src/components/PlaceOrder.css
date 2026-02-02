@@ -141,20 +141,7 @@ html {
 }
 
 /* Hero Section */
-.hero-section {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6rem 2rem 2rem;
-  position: relative;
-  overflow: hidden;
-  background: linear-gradient(135deg, rgba(183, 28, 28, 0.8) 0%, rgba(229, 57, 53, 0.8) 100%);
-  background-size: cover;
-  background-position: center;
-  background-blend-mode: overlay;
-  background-attachment: fixed;
-}
+/* Hero styles removed to avoid global conflict */
 
 .hero-content {
   max-width: 800px;
