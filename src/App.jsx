@@ -27,16 +27,18 @@ const products = [
   {
     id: 1,
     name: "Chicken Seekh Kabab",
-    description: "Premium quality chicken seekh kababs, perfectly seasoned and ready to cook. Pack of 12 pieces.",
+    description: "Premium quality chicken seekh kababs, perfectly seasoned and ready to cook. Regular pack.",
     image: "/images/chicken-seekh-kabab.png",
     category: "Premium Chicken Product",
+    price: 500,
   },
   {
     id: 2,
     name: "Chicken Gola Kabab",
-    description: "Delicious round chicken kababs with authentic spices. 450g pack with 15-18 pieces.",
+    description: "Delicious round chicken kababs with authentic spices. 450g pack.",
     image: "/images/chicken-gola-kabab.png",
     category: "Premium Chicken Product",
+    price: 450,
   },
   {
     id: 3,
@@ -44,6 +46,7 @@ const products = [
     description: "Traditional flat chicken kababs with a perfect blend of spices. Pack of 8 pieces.",
     image: "/images/chicken-chapli-kabab.png",
     category: "Premium Chicken Product",
+    price: 450,
   },
   {
     id: 4,
@@ -51,6 +54,7 @@ const products = [
     description: "Juicy chicken meatballs ideal for curries and appetizers. Pack of 12 pieces.",
     image: "/images/chicken-kofta1.png",
     category: "Premium Chicken Product",
+    price: 450,
   },
   {
     id: 5,
@@ -58,62 +62,112 @@ const products = [
     description: "Tender chicken patties with lentils and spices. Pack of 12 pieces.",
     image: "/images/chicken-shami-kabab.png",
     category: "Premium Chicken Product",
+    price: 450,
   },
   {
     id: 6,
     name: "Chicken Nuggets",
-    description: "Crispy chicken nuggets, perfect for kids and adults. 500g pack with 22-24 pieces.",
+    description: "Crispy chicken nuggets, perfect for kids and adults. 500g pack.",
     image: "/images/chicken-nuggets.png",
     category: "Premium Chicken Product",
+    price: 460,
   },
   {
     id: 7,
     name: "Burger Patty",
-    description: "Premium chicken burger patties for the perfect homemade burger. Available in packs of 8 or 12.",
+    description: "Premium chicken burger patties for the perfect homemade burger. 8pcs pack.",
     image: "/images/burger-patty.png",
     category: "Premium Chicken Product",
+    price: 500,
   },
   {
     id: 8,
-    name: "Chicken Cheese Samosa",
-    description: "Crispy samosas filled with chicken and cheese. Large size, pack of 10 pieces.",
+    name: "Samosa Delights",
+    description: "Our signature crispy samosas with various delicious fillings.",
     image: "/images/samosa.png",
     category: "Samosa and Roll",
-  },
-  {
-    id: 9,
-    name: "Pizza Samosa",
-    description: "Innovative samosas with pizza-inspired filling. Large size, pack of 10 pieces.",
-    image: "/images/Pizza Samosa.png",
-    category: "Samosa and Roll",
+    price: "250 - 500",
+    options: [
+      { name: "Tikka Cheese Samosa", price: 450 },
+      { name: "Fajita Pizza Samosa", price: 500 },
+      { name: "Pizza Samosa", price: 470 },
+      { name: "Tikka Samosa", price: 400 },
+      { name: "Chicken Veg Samosa", price: 300 },
+      { name: "Potato Samosa", price: 250 }
+    ]
   },
   {
     id: 10,
-    name: "Kabab Roll",
-    description: "Delicious kabab rolls with our signature spices. Large size, pack of 10 pieces.",
+    name: "Roll Selection",
+    description: "Flaky and crispy rolls with premium meat and vegetable fillings.",
     image: "/images/kabab-roll.png",
     category: "Samosa and Roll",
+    price: "350 - 700",
+    options: [
+      { name: "Tikka Cheese Roll", price: 600 },
+      { name: "Pizza Roll", price: 700 },
+      { name: "Tikka Roll", price: 500 },
+      { name: "Chicken Veg Roll", price: 350 }
+    ]
   },
   {
     id: 11,
     name: "French Fries",
-    description: "Crispy golden french fries, ready to cook. Available in 1kg and 2kg packs.",
+    description: "Crispy golden french fries, ready to cook.",
     image: "/images/french-fries.png",
     category: "Fries",
+    price: "450 - 900",
+    options: [
+      { name: "1kg Pack", price: 450 },
+      { name: "2kg Pack", price: 900 },
+      { name: "Chicorn Fries", price: 500 }
+    ]
   },
   {
     id: 12,
-    name: "Beef Shami Kabab",
-    description: "Premium beef shami kababs with authentic spices. Pack of 12 pieces.",
+    name: "Beef Specials",
+    description: "Premium beef products prepared with authentic spices.",
     image: "/images/beef-shami-kabab.png",
     category: "Beef Special",
+    price: 450,
+    options: [
+      { name: "Beef Shami Kabab", price: 450 },
+      { name: "Beef Kofta", price: 450 }
+    ]
   },
   {
-    id: 13,
-    name: "Beef Kofta",
-    description: "Juicy beef meatballs perfect for curries and appetizers. Pack of 12 pieces.",
-    image: "/images/beef-kofta.png",
-    category: "Beef Special",
+    id: 15,
+    name: "Premium Toppings",
+    description: "Ready-to-use chicken toppings for pizzas and pastas.",
+    image: "/images/topping.jpg",
+    category: "Toppings",
+    price: 600,
+    options: [
+      { name: "Tikka Topping", price: 600 },
+      { name: "Fajita Topping", price: 600 }
+    ]
+  },
+  {
+    id: 17,
+    name: "Malai Boti",
+    description: "Creamy and tender chicken malai boti, perfectly marinated.",
+    image: "/images/malaiBotti.jpg",
+    category: "Premium Chicken Product",
+    price: 420,
+  },
+  {
+    id: 18,
+    name: "Gourmet Cheese",
+    description: "High-quality Mozzarella and Cheddar cheese for all your cooking needs.",
+    image: "/images/chartter cheese.jpg",
+    category: "Cheese",
+    price: "1300 - 2550",
+    options: [
+      { name: "Cheddar Cheese 1kg", price: 1300 },
+      { name: "Cheddar Cheese 2kg", price: 2400 },
+      { name: "Mozzarella Cheese 1kg", price: 1400 },
+      { name: "Mozzarella Cheese 2kg", price: 2550 }
+    ]
   },
 ]
 
@@ -163,11 +217,11 @@ function App() {
   // const [confirmNewPassword, setConfirmNewPassword] = useState("")
   // const [resetError, setResetError] = useState("")
   // const [resetSuccess, setResetSuccess] = useState("")
-  
+
   // Product detail modal states
   const [showProductModal, setShowProductModal] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState(null)
-  
+
   // Menu modal state
   const [showMenuModal, setShowMenuModal] = useState(false)
   // Story modal state
@@ -679,15 +733,15 @@ function App() {
   //   setShowAuthModal(true)
   //   setIsLogin(true)
 
-    // Reset all password reset fields (commented out - not used in landing page)
-    // setResetStep(1)
-    // setResetEmail("")
-    // setResetOTP("")
-    // setResetToken("") // Commented out - not used in landing page
-    // setNewPassword("")
-    // setConfirmNewPassword("")
-    // setResetError("")
-    // setResetSuccess("")
+  // Reset all password reset fields (commented out - not used in landing page)
+  // setResetStep(1)
+  // setResetEmail("")
+  // setResetOTP("")
+  // setResetToken("") // Commented out - not used in landing page
+  // setNewPassword("")
+  // setConfirmNewPassword("")
+  // setResetError("")
+  // setResetSuccess("")
   // }
 
   const scrollToSection = (sectionRef) => {
@@ -872,7 +926,7 @@ function App() {
             transition={{ duration: 0.8, delay: 0.5, type: "spring" }}
             className="hero-cta"
           >
-            <motion.div 
+            <motion.div
               className="search-container"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -912,7 +966,7 @@ function App() {
 
       {/* Products Section */}
       <section id="products" ref={productsRef} className="products-section">
-        <motion.h2 
+        <motion.h2
           className="section-title products-title"
           initial={{ opacity: 0, y: -30, scale: 0.9 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -922,7 +976,7 @@ function App() {
           Our Premium Frozen Products
         </motion.h2>
 
-        <motion.div 
+        <motion.div
           className="category-filter"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -946,7 +1000,7 @@ function App() {
           ))}
         </motion.div>
 
-        <motion.div 
+        <motion.div
           className="products-grid"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -963,14 +1017,14 @@ function App() {
               viewport={{ once: true }}
               whileHover={{ y: -15, scale: 1.05, rotateY: 5, boxShadow: "0 20px 50px rgba(229, 57, 53, 0.3)" }}
             >
-              <motion.div 
+              <motion.div
                 className="product-image"
                 whileHover={{ scale: 1.1 }}
                 transition={{ duration: 0.3 }}
               >
                 <img src={product.image || "/placeholder.svg"} alt={product.name} />
               </motion.div>
-              <motion.div 
+              <motion.div
                 className="product-category"
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -979,6 +1033,9 @@ function App() {
               >
                 {product.category}
               </motion.div>
+              <div className="product-price-badge">
+                {typeof product.price === 'number' ? `PKR ${product.price}` : `PKR ${product.price}`}
+              </div>
               <motion.h3
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
@@ -995,9 +1052,9 @@ function App() {
               >
                 {product.description}
               </motion.p>
-              <motion.button 
-                className="product-btn" 
-                whileHover={{ scale: 1.1, boxShadow: "0 8px 25px rgba(229, 57, 53, 0.5)" }} 
+              <motion.button
+                className="product-btn"
+                whileHover={{ scale: 1.1, boxShadow: "0 8px 25px rgba(229, 57, 53, 0.5)" }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => {
                   setSelectedProduct(product)
@@ -1036,7 +1093,7 @@ function App() {
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <motion.h3 
+            <motion.h3
               className="location-intro-title"
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -1045,8 +1102,8 @@ function App() {
             >
               HRS Food Delivery is Present All Over
             </motion.h3>
-            
-            <motion.div 
+
+            <motion.div
               className="location-cities-container"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -1093,7 +1150,7 @@ function App() {
               </motion.div>
             </motion.div>
 
-            <motion.p 
+            <motion.p
               className="delivery-tagline"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -1104,7 +1161,7 @@ function App() {
             </motion.p>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             className="location-features-grid"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -1268,10 +1325,10 @@ function App() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <img 
-              src="/images/menu1.jpeg" 
-              alt="HRS Foods Menu" 
-              className="menu-image" 
+            <img
+              src="/images/menu1.jpeg"
+              alt="HRS Foods Menu"
+              className="menu-image"
               onClick={() => setShowMenuModal(true)}
               style={{ cursor: 'pointer' }}
             />
@@ -1506,7 +1563,7 @@ function App() {
                   className="google-auth-btn"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  // onClick={handleGoogleLogin} // Temporarily disabled as backend is removed
+                // onClick={handleGoogleLogin} // Temporarily disabled as backend is removed
                 >
                   <FaGoogle className="google-icon" />
                   {isLogin ? "Login with Google" : "Sign up with Google"}
@@ -1738,7 +1795,7 @@ function App() {
                 </div>
 
                 <div className="product-detail-info">
-                  <motion.div 
+                  <motion.div
                     className="product-detail-category"
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -1746,7 +1803,7 @@ function App() {
                   >
                     {selectedProduct.category}
                   </motion.div>
-                  <motion.h2 
+                  <motion.h2
                     className="product-detail-name"
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -1754,7 +1811,7 @@ function App() {
                   >
                     {selectedProduct.name}
                   </motion.h2>
-                  <motion.p 
+                  <motion.p
                     className="product-detail-description"
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -1762,9 +1819,9 @@ function App() {
                   >
                     {selectedProduct.description}
                   </motion.p>
-                  
+
                   {/* Enhanced Mouth-watering Description */}
-                  <motion.div 
+                  <motion.div
                     className="product-mouth-watering"
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -1772,18 +1829,18 @@ function App() {
                   >
                     <h3 className="mouth-watering-title">🍽️ Why You'll Love It</h3>
                     <p className="mouth-watering-text">
-                      {selectedProduct.category.includes("Chicken") 
+                      {selectedProduct.category.includes("Chicken")
                         ? "Succulent, tender, and bursting with authentic flavors! Our premium chicken products are marinated with a secret blend of spices that will transport your taste buds to culinary heaven. Perfectly cooked every time, these mouth-watering delights are ready to become the star of your meal!"
                         : selectedProduct.category.includes("Beef")
-                        ? "Rich, hearty, and incredibly satisfying! Our premium beef products are crafted with the finest cuts, seasoned to perfection with traditional spices. Each bite delivers a explosion of flavors that will leave you craving for more. A true feast for meat lovers!"
-                        : selectedProduct.category.includes("Samosa") || selectedProduct.category.includes("Roll")
-                        ? "Crispy, golden, and absolutely irresistible! Each bite reveals a perfect harmony of flavors - from the flaky, buttery crust to the rich, savory filling. These traditional favorites are made with love and care, bringing authentic Pakistani street food flavors right to your kitchen!"
-                        : "Fresh, delicious, and perfectly prepared! Made with premium ingredients and our secret recipe, this product delivers exceptional taste and quality. Whether it's a quick snack or a complete meal, you're guaranteed satisfaction with every bite!"
+                          ? "Rich, hearty, and incredibly satisfying! Our premium beef products are crafted with the finest cuts, seasoned to perfection with traditional spices. Each bite delivers a explosion of flavors that will leave you craving for more. A true feast for meat lovers!"
+                          : selectedProduct.category.includes("Samosa") || selectedProduct.category.includes("Roll")
+                            ? "Crispy, golden, and absolutely irresistible! Each bite reveals a perfect harmony of flavors - from the flaky, buttery crust to the rich, savory filling. These traditional favorites are made with love and care, bringing authentic Pakistani street food flavors right to your kitchen!"
+                            : "Fresh, delicious, and perfectly prepared! Made with premium ingredients and our secret recipe, this product delivers exceptional taste and quality. Whether it's a quick snack or a complete meal, you're guaranteed satisfaction with every bite!"
                       }
                     </p>
                   </motion.div>
-                  
-                  <motion.div 
+
+                  <motion.div
                     className="product-detail-specs"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -1799,8 +1856,23 @@ function App() {
                     </div>
                     <div className="product-spec-item price-item">
                       <span className="spec-label">Price:</span>
-                      <span className="spec-value price-coming-soon">Coming Soon</span>
+                      <span className="spec-value price-tag">
+                        {typeof selectedProduct.price === 'number' ? `PKR ${selectedProduct.price}` : `PKR ${selectedProduct.price}`}
+                      </span>
                     </div>
+                    {selectedProduct.options && (
+                      <div className="product-options-container">
+                        <span className="spec-label">Options:</span>
+                        <div className="options-list">
+                          {selectedProduct.options.map((opt, i) => (
+                            <div key={i} className="option-item">
+                              <span className="option-name">{opt.name}</span>
+                              <span className="option-price">PKR {opt.price}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </motion.div>
 
                   <div className="product-detail-actions">
